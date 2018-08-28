@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_below="@+id/start_scan"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:contentDescription="Flakeynetworks Logo"
+            android:src="@drawable/flakeynetworks_icon" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/imageView"
+            android:layout_alignStart="@+id/imageView"
+            android:layout_below="@+id/start_scan"
+            android:layout_marginTop="48dp"
+            android:text="Flakeynetworks"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="QR Code Sequence"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="@string/app_desc" />
+
+        <Button
+            android:id="@+id/start_scan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="20dp"
+            android:text="Start Scanning" />
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -1,4 +1,4 @@
-package qrcodesequence.flakeynetworks.com.qrcodesequencetest;
+package uk.co.flakeynetworks.qrcodesequence;
 
 import android.app.Activity;
 import android.content.Intent;
