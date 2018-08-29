@@ -4,11 +4,16 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.Snackbar;
 import android.view.MenuItem;
 
 
@@ -83,13 +88,10 @@ public class MainActivity extends Activity {
         loadFragment(about);
     } // end of loadAbout
 
-    public void loadScanResults(String message) {
+    public void loadScanResults(ScanResult result) {
 
         FragmentScanResults scanResults = new FragmentScanResults();
-
-        Bundle bundle = new Bundle();
-        bundle.putString("message", message);
-        scanResults.setArguments(bundle);
+        scanResults.setResult(result);
 
         loadFragment(scanResults);
     } // end of loadScanResults
@@ -103,21 +105,30 @@ public class MainActivity extends Activity {
 
             if(resultCode == RESULT_OK) {
 
-                String message = data.getStringExtra("message");
+                // Get the result and save it to file
+                ScanResult result = data.getParcelableExtra("scanResult");
+                boolean saved = result.save(this.getApplicationContext());
+                if(!saved)
+                    Snackbar.make(bottomNavigationView, "Error! Could not save this to history.", Snackbar.LENGTH_SHORT).show();
 
+                // Vibrate to let the user know a message has been received
+                Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                // Vibrate for 500 milliseconds
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+                    if(v != null)
+                        v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+                } else {
+
+                    //deprecated in API 26
+                    if(v != null)
+                        v.vibrate(500);
+                } // end of else
+
+                // TODO change the name to QR Sequencer
                 // Show the results
-                loadScanResults(message);
+                loadScanResults(result);
             } // end of if
         } // end of if
     } // end of onActivityResult
-
-
-    public void shareMessage(String message) {
-
-        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-        sharingIntent.setType("text/plain");
-        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
-        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, message);
-        startActivity(Intent.createChooser(sharingIntent, "Flakeynetworks QR Sequence"));
-    } // end of shareMessage
 } // end of MainActivity

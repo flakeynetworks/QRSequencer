@@ -1,6 +1,7 @@
 package uk.co.flakeynetworks.qrcodesequence;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
@@ -15,6 +17,8 @@ import android.widget.TextView;
  */
 
 public class FragmentScanResults extends Fragment {
+
+    private ScanResult scanResult;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -25,16 +29,33 @@ public class FragmentScanResults extends Fragment {
         view.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
 
-        // Get the message to display
-        Bundle bundle = getArguments();
-
-        String message = "";
-        if(bundle.containsKey("message"))
-            message = bundle.getString("message");
-
+        // Set the message
         TextView messageView = view.findViewById(R.id.message_text);
-        messageView.setText(message);
+        messageView.setText(scanResult.getMessage());
+
+
+        LinearLayout btnShare = view.findViewById(R.id.btnShare);
+        btnShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                shareMessage(scanResult.getMessage());
+            } // end of onClick
+        });
 
         return view;
     } // end of onCreateView
+
+
+    public void setResult(ScanResult result) { this.scanResult = result; } // end of setResult
+
+
+    public void shareMessage(String message) {
+
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Scan Result");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, message);
+        startActivity(Intent.createChooser(sharingIntent, "Flakeynetworks QR Sequence"));
+    } // end of shareMessage
 } // end of FragmentScanResults

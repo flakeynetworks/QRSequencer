@@ -24,6 +24,8 @@ public class QRSequenceScanner extends Activity implements ZXingScannerView.Resu
 
     private ZXingScannerView mScannerView;
     private String[] messages;
+    private long scanStartTime;
+    private long scanTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,8 @@ public class QRSequenceScanner extends Activity implements ZXingScannerView.Resu
 
 
     private void startScanning() {
+
+        scanStartTime = System.currentTimeMillis();
 
         mScannerView = new ZXingScannerView(this);   // Programmatically initialize the scanner view
         mScannerView.setLaserEnabled(false);
@@ -129,8 +133,15 @@ public class QRSequenceScanner extends Activity implements ZXingScannerView.Resu
 
             if(hasMessagesBeenReceived()) {
 
+                // Save some of the details
+                long currentTime = System.currentTimeMillis();
+                scanTime = currentTime - scanStartTime;
+                String entireMessage = getMessage();
+
+                ScanResult result = new ScanResult(entireMessage, currentTime, scanTime, messages.length);
+
                 Intent intent = new Intent();
-                intent.putExtra("message", getMessage());
+                intent.putExtra("scanResult", result);
                 setResult(RESULT_OK, intent);
                 finish();
                 return;
