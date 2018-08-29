@@ -16,6 +16,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.Snackbar;
 import android.view.MenuItem;
 
+// TODO change the name to QR Sequencer
 
 public class MainActivity extends Activity {
 
@@ -48,7 +49,7 @@ public class MainActivity extends Activity {
                                 return true;
 
                             case R.id.action_history:
-                                // TODO
+                                loadHistory();
                                 return true;
                         } // end of switch
                         return false;
@@ -57,6 +58,13 @@ public class MainActivity extends Activity {
 
         loadHomeFragment();
     } // end of onCreate
+
+
+    public void loadHistory() {
+
+        FragmentHistory historyFragment = new FragmentHistory();
+        loadFragment(historyFragment);
+    } // end of loadHistory
 
 
     public void startScanning() {
@@ -125,7 +133,6 @@ public class MainActivity extends Activity {
                         v.vibrate(500);
                 } // end of else
 
-                // TODO change the name to QR Sequencer
                 // Show the results
                 loadScanResults(result);
             } // end of if

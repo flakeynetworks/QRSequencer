@@ -3,18 +3,22 @@ package uk.co.flakeynetworks.qrcodesequence;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Richard Stokes on 8/29/2018.
  */
 
-public class ScanResult implements Parcelable {
+public class ScanResult implements Parcelable, Comparable<ScanResult> {
 
     private final String message;
     private final long scanTime;
@@ -73,13 +77,14 @@ public class ScanResult implements Parcelable {
 
     public int getNumberOfPayloads() { return numberOfPayloads; } // end of getNumberOfPayloads
 
+
     public boolean save(Context context) {
 
-        File directory = new File(context.getFilesDir(), "history");
+        File directory = new File(context.getFilesDir(), context.getResources().getString(R.string.historyFolder));
         if(!directory.exists())
             directory.mkdirs();
 
-        File file = new File(directory, String.format("%d%n", scanTime));
+        File file = new File(directory, String.format("%d%n.json", scanTime));
 
         FileWriter writer = null;
 
@@ -120,4 +125,22 @@ public class ScanResult implements Parcelable {
         Gson gson = new Gson();
         return gson.fromJson(fileContents, ScanResult.class);
     } // end of fromJSON
+
+
+    @Override
+    public int compareTo(@NonNull ScanResult o) {
+
+        if(scanTime == o.scanTime) return 0;
+        if(scanTime < o.scanTime) return -1;
+        return 1;
+    } // end of compareTo
+
+
+    public String getDateAndTimeTaken() {
+
+        Date date = new Date(scanTime);
+        DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+
+        return df.format(date);
+    } // end of getDateAndTimeTaken
 } // end of ScanResult
