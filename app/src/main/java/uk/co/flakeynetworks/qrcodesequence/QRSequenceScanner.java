@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
+import uk.co.flakeynetworks.qrcodesequence.model.ScanResult;
 
 /**
  * Created by Richard Stokes on 8/27/2018.

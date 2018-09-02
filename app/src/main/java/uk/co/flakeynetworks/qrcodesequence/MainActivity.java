@@ -16,6 +16,12 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.Snackbar;
 import android.view.MenuItem;
 
+import uk.co.flakeynetworks.qrcodesequence.model.ScanResult;
+import uk.co.flakeynetworks.qrcodesequence.ui.FragmentAbout;
+import uk.co.flakeynetworks.qrcodesequence.ui.FragmentHistory;
+import uk.co.flakeynetworks.qrcodesequence.ui.FragmentHome;
+import uk.co.flakeynetworks.qrcodesequence.ui.FragmentScanResults;
+
 // TODO change the name to QR Sequencer
 
 public class MainActivity extends Activity {

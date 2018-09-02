@@ -1,16 +1,16 @@
-package uk.co.flakeynetworks.qrcodesequence;
+package uk.co.flakeynetworks.qrcodesequence.model;
 
 import android.content.Context;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+
+import uk.co.flakeynetworks.qrcodesequence.R;
 
 /**
  * Created by Richard Stokes on 8/29/2018.
@@ -50,6 +50,8 @@ public class ScanHistory {
                     jsonBuidler.append(st).append("\n");
 
                 ScanResult scanResult = ScanResult.fromJSON(jsonBuidler.toString());
+                scanResult.setFile(file);
+
                 history.add(scanResult);
             } catch (IOException ignore) { } // end of catch
         } // end of for
@@ -57,4 +59,17 @@ public class ScanHistory {
 
 
     public List<ScanResult> getResults() { return history; } // end of getResults
+
+    public boolean delete(ScanResult result) {
+
+        // Delete the file
+        if(result.deleteFile()) {
+
+            // Remove the result from the history list
+            history.remove(result);
+            return true;
+        } // end of if
+
+        return false;
+    } // end of delete
 } // end of ScanHistory

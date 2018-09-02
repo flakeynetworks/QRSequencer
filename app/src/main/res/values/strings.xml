@@ -5,4 +5,5 @@
     <string name="menu_item_scan">Scan</string>
     <string name="app_desc">QR Code Sequence is a proof of concept to break a large message, bigger than what one QR code can contain into multiple QR codes and send them in quick succession. \n\nOnline QR Code Sequence generator: https://flakeynetworks.co.uk/qr-sequence-generator/</string>
     <string name="historyFolder">history</string>
+    <string name="delete">DELETE</string>
 </resources>

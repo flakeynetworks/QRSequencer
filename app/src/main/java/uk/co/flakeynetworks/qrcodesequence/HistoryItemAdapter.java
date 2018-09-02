@@ -1,51 +1,97 @@
 package uk.co.flakeynetworks.qrcodesequence;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
+
+import uk.co.flakeynetworks.qrcodesequence.model.ScanResult;
 
 /**
  * Created by Richard Stokes on 12/30/2017.
  */
 
-public class HistoryItemAdapter extends ArrayAdapter<ScanResult> {
+public class HistoryItemAdapter extends RecyclerView.Adapter<HistoryItemAdapter.ScanHolder> {
 
 
     private List<ScanResult> scanResults;
-    private LayoutInflater mInflater;
+    private MainActivity mainActivity;
 
 
-    public HistoryItemAdapter(@NonNull Context context, int resource, @NonNull List<ScanResult> objects) {
+    public class ScanHolder extends RecyclerView.ViewHolder {
 
-        super(context, resource, objects);
 
+        private TextView message, date;
+        private ScanResult result;
+        private View view;
+
+
+        public ScanHolder(View view) {
+
+            super(view);
+
+            this.view = view;
+
+            message = view.findViewById(R.id.message);
+            date = view.findViewById(R.id.dateTaken);
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mainActivity.loadScanResults(result);
+                } // end of onClick
+            });
+        } // end of constructor
+
+
+        public ScanResult getResult() { return result; } // end of getResult
+
+
+        public void updateContents(ScanResult result) {
+
+            this.result = result;
+
+            message.setText(result.getMessage());
+            date.setText(result.getDateAndTimeTaken());
+        } // end of updateContents
+
+
+        public LinearLayout getForeground() { return view.findViewById(R.id.foreground); } // end of getForeground
+        public LinearLayout getBackground() { return view.findViewById(R.id.background); } // end of getForeground
+    } // end of ScanHolder
+
+
+    public HistoryItemAdapter(@NonNull MainActivity activity, @NonNull List<ScanResult> objects) {
+
+        this.mainActivity = activity;
         scanResults = objects;
-        mInflater = LayoutInflater.from(context);
     } // end of constructor
 
 
-    @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public ScanHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        if (convertView == null)
-            convertView = mInflater.inflate(R.layout.list_history_item, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.list_history_item, parent, false);
 
-        TextView message = convertView.findViewById(R.id.message);
+        return new ScanHolder(itemView);
+    } // end of onCreateViewHolder
+
+
+    @Override
+    public void onBindViewHolder(ScanHolder holder, int position) {
 
         ScanResult result = scanResults.get(position);
-        message.setText(result.getMessage());
+        holder.updateContents(result);
+    } // end of onBindViewHolder
 
-        TextView date = convertView.findViewById(R.id.dateTaken);
-        date.setText(result.getDateAndTimeTaken());
 
-        return convertView;
-    } // end of getView
+    @Override
+    public int getItemCount() { return scanResults.size(); } // end of getItemCount
 } // end of HistoryItemAdapter

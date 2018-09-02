@@ -1,4 +1,4 @@
-package uk.co.flakeynetworks.qrcodesequence;
+package uk.co.flakeynetworks.qrcodesequence.model;
 
 import android.content.Context;
 import android.os.Parcel;
@@ -14,6 +14,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import uk.co.flakeynetworks.qrcodesequence.R;
+
 /**
  * Created by Richard Stokes on 8/29/2018.
  */
@@ -24,6 +26,7 @@ public class ScanResult implements Parcelable, Comparable<ScanResult> {
     private final long scanTime;
     private final long scanDuration;
     private final int numberOfPayloads;
+    private File file;
 
 
     public ScanResult(String message, long scanTime, long scanDuration, int numberOfPayloads) {
@@ -143,4 +146,18 @@ public class ScanResult implements Parcelable, Comparable<ScanResult> {
 
         return df.format(date);
     } // end of getDateAndTimeTaken
+
+
+    public void setFile(File file) {
+
+        this.file = file;
+    } // end of setFile
+
+
+    public boolean deleteFile() {
+
+        if(file == null) return false;
+
+        return file.delete();
+    } // end of deleteFile
 } // end of ScanResult

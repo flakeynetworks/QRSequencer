@@ -1,4 +1,4 @@
-package uk.co.flakeynetworks.qrcodesequence;
+package uk.co.flakeynetworks.qrcodesequence.ui;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -11,6 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import uk.co.flakeynetworks.qrcodesequence.R;
+import uk.co.flakeynetworks.qrcodesequence.model.ScanResult;
 
 /**
  * Created by Richard Stokes on 8/28/2018.
