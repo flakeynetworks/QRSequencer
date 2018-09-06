@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
@@ -28,6 +29,8 @@ public class QRSequenceScanner extends Activity implements ZXingScannerView.Resu
     private long scanStartTime;
     private long scanTime;
 
+    private ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -41,9 +44,21 @@ public class QRSequenceScanner extends Activity implements ZXingScannerView.Resu
 
         scanStartTime = System.currentTimeMillis();
 
-        mScannerView = new ZXingScannerView(this);   // Programmatically initialize the scanner view
+        // Load in the custom layout
+        setContentView(R.layout.custom_scanning_layout);
+
+        // Get the custom UI elements we will need later
+        progressBar = findViewById(R.id.progressBar);
+
+        // Programmatically initialize the scanner view
+        mScannerView = new ZXingScannerView(this);
+
+        // Add the scanner view to the custom view
+        ZXingScannerView zscanner = findViewById(R.id.zxscan);
+        zscanner.addView(mScannerView);
+
+
         mScannerView.setLaserEnabled(false);
-        setContentView(mScannerView);                // Set the scanner view as the content view
 
         List<BarcodeFormat> formats = new ArrayList<>();
         formats.add(BarcodeFormat.QR_CODE);
@@ -58,7 +73,7 @@ public class QRSequenceScanner extends Activity implements ZXingScannerView.Resu
 
                 mScannerView.setCameraDistance(1000);
                 mScannerView.findFocus();
-            }
+            } // end of onClick
         });
     } // end of startScanning
 
@@ -113,6 +128,17 @@ public class QRSequenceScanner extends Activity implements ZXingScannerView.Resu
         return builder.toString();
     } // end of getMessage
 
+    private int getNumberOfPayloadsReceived() {
+
+        int counter = 0;
+        for(String message: messages) {
+            if (message != null)
+                counter++;
+        } // end of for
+
+        return counter;
+    } // end of getNumberOfPayloadsReceived
+
 
     @Override
     public void handleResult(Result rawResult) {
@@ -128,9 +154,18 @@ public class QRSequenceScanner extends Activity implements ZXingScannerView.Resu
             int totalMessages = payloadJSON.getInt("c");
             String payloadMessage = payloadJSON.getString("p");
 
-            if(messages == null || messages.length != totalMessages) messages = new String[totalMessages];
+            // Found the total number of messages we should received. Update everything
+            if(messages == null || messages.length != totalMessages) {
+
+                messages = new String[totalMessages];
+                progressBar.setMax(totalMessages);
+            } // end of if
 
             messages[messageNumber] = payloadMessage;
+
+            // Update the UI
+            progressBar.setProgress(getNumberOfPayloadsReceived());
+
 
             if(hasMessagesBeenReceived()) {
 
