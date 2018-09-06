@@ -23,6 +23,8 @@ public class FragmentScanResults extends Fragment {
 
     private ScanResult scanResult;
 
+    // TODO ADD A COPY TEXT BUTTON
+
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

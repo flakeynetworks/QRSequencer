@@ -5,8 +5,16 @@
         android:id="@+id/action_scan"
         android:enabled="true"
         android:title="@string/menu_item_scan"
-        android:icon="@drawable/icon_scan_qr"
+        android:icon="@drawable/icon_camera"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_send"
+        android:enabled="true"
+        android:title="Send"
+        android:icon = "@drawable/icon_scan_qr"
+        app:showAsAction="ifRoom" />
+
     <item
         android:id="@+id/action_history"
         android:enabled="true"

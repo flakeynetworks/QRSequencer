@@ -21,8 +21,7 @@ import uk.co.flakeynetworks.qrcodesequence.ui.FragmentAbout;
 import uk.co.flakeynetworks.qrcodesequence.ui.FragmentHistory;
 import uk.co.flakeynetworks.qrcodesequence.ui.FragmentHome;
 import uk.co.flakeynetworks.qrcodesequence.ui.FragmentScanResults;
-
-// TODO change the name to QR Sequencer
+import uk.co.flakeynetworks.qrcodesequence.ui.FragmentSend;
 
 public class MainActivity extends Activity {
 
@@ -57,6 +56,11 @@ public class MainActivity extends Activity {
                             case R.id.action_history:
                                 loadHistory();
                                 return true;
+
+                            case R.id.action_send:
+                                loadSend();
+                                return true;
+
                         } // end of switch
                         return false;
                     }
@@ -64,6 +68,13 @@ public class MainActivity extends Activity {
 
         loadHomeFragment();
     } // end of onCreate
+
+
+    public void loadSend() {
+
+        FragmentSend sendFragment = new FragmentSend();
+        loadFragment(sendFragment, true);
+    } // end of loadSend
 
 
     public void loadHistory() {
@@ -93,7 +104,7 @@ public class MainActivity extends Activity {
         FragmentTransaction transaction = manager.beginTransaction();
         if(!replace)
             transaction.addToBackStack(null);
-        
+
         transaction.replace(R.id.fragmentPlaceHolder, fragment);
 
         transaction.commit();
