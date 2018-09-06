@@ -66,7 +66,7 @@ public class FragmentHistory extends Fragment {
         historyList.setAdapter(historyListAdapter);
 
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
@@ -76,7 +76,7 @@ public class FragmentHistory extends Fragment {
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
 
-                if(swipeDir == ItemTouchHelper.RIGHT) {
+                if(swipeDir == ItemTouchHelper.LEFT) {
 
                     // Get the scan result
                     ScanResult result = ((HistoryItemAdapter.ScanHolder) viewHolder).getResult();

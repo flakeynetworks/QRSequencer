@@ -69,7 +69,7 @@ public class MainActivity extends Activity {
     public void loadHistory() {
 
         FragmentHistory historyFragment = new FragmentHistory();
-        loadFragment(historyFragment);
+        loadFragment(historyFragment, true);
     } // end of loadHistory
 
 
@@ -83,15 +83,19 @@ public class MainActivity extends Activity {
     public void loadHomeFragment() {
 
         FragmentHome homeFragment = new FragmentHome();
-        loadFragment(homeFragment);
+        loadFragment(homeFragment, true);
     } // end of loadHomeFragment
 
 
-    private void loadFragment(Fragment fragment) {
+    private void loadFragment(Fragment fragment, boolean replace) {
 
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
+        if(!replace)
+            transaction.addToBackStack(null);
+        
         transaction.replace(R.id.fragmentPlaceHolder, fragment);
+
         transaction.commit();
     } // end of loadFragment
 
@@ -99,7 +103,7 @@ public class MainActivity extends Activity {
     public void loadAbout() {
 
         FragmentAbout about = new FragmentAbout();
-        loadFragment(about);
+        loadFragment(about, true);
     } // end of loadAbout
 
     public void loadScanResults(ScanResult result) {
@@ -107,7 +111,7 @@ public class MainActivity extends Activity {
         FragmentScanResults scanResults = new FragmentScanResults();
         scanResults.setResult(result);
 
-        loadFragment(scanResults);
+        loadFragment(scanResults, false);
     } // end of loadScanResults
 
 
