@@ -182,7 +182,27 @@ public class QRSequenceScanner extends Activity implements ZXingScannerView.Resu
                 finish();
                 return;
             } // end of if
-        } catch (JSONException e) { } // end of catch
+        } catch (JSONException e) {
+
+            // Assume this is a genuine QR code only if we haven't started scanning a sequence
+            if(messages != null)  {
+
+                mScannerView.resumeCameraPreview(this);
+                return;
+            } // end of if
+
+            // Save some of the details
+            long currentTime = System.currentTimeMillis();
+            scanTime = currentTime - scanStartTime;
+
+            ScanResult result = new ScanResult(payload, currentTime, scanTime, -1);
+
+            Intent intent = new Intent();
+            intent.putExtra("scanResult", result);
+            setResult(RESULT_OK, intent);
+            finish();
+            return;
+        } // end of catch
 
         mScannerView.resumeCameraPreview(this);
     } // end of handleResult
