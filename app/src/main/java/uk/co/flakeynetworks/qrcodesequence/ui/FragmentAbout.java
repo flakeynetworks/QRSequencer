@@ -26,7 +26,7 @@ public class FragmentAbout extends Fragment {
         view.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         WebView webview = view.findViewById(R.id.aboutPage);
-        webview.loadUrl("https://flakeynetworks.co.uk/");
+        webview.loadUrl("https://flakeynetworks.co.uk/qr-sequencing/");
 
         return view;
     } // end of onCreateView

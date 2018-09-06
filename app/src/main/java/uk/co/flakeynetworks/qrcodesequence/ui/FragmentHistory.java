@@ -55,6 +55,12 @@ public class FragmentHistory extends Fragment {
         List<ScanResult> results = history.getResults();
         Collections.sort(results);
 
+        // If there is no history to be shown display the error message
+        if(results.isEmpty())
+            getView().findViewById(R.id.noHistory).setVisibility(View.VISIBLE);
+        else
+            getView().findViewById(R.id.noHistory).setVisibility(View.GONE);
+
         RecyclerView historyList = getView().findViewById(R.id.historyList);
         historyListAdapter = new HistoryItemAdapter((MainActivity) getActivity(), results);
 

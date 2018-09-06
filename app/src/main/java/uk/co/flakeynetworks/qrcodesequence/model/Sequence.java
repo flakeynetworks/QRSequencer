@@ -79,4 +79,7 @@ public class Sequence {
 
         return builder.toString();
     } // end of getMessage
+
+
+    public long getInterval() { return sequenceInterval; } // end of getInterval
 } // end of Sequence

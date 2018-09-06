@@ -17,11 +17,13 @@ import android.support.design.widget.Snackbar;
 import android.view.MenuItem;
 
 import uk.co.flakeynetworks.qrcodesequence.model.ScanResult;
+import uk.co.flakeynetworks.qrcodesequence.model.Sequence;
 import uk.co.flakeynetworks.qrcodesequence.ui.FragmentAbout;
 import uk.co.flakeynetworks.qrcodesequence.ui.FragmentHistory;
 import uk.co.flakeynetworks.qrcodesequence.ui.FragmentHome;
 import uk.co.flakeynetworks.qrcodesequence.ui.FragmentScanResults;
 import uk.co.flakeynetworks.qrcodesequence.ui.FragmentSend;
+import uk.co.flakeynetworks.qrcodesequence.ui.FragmentSequence;
 
 public class MainActivity extends Activity {
 
@@ -58,7 +60,7 @@ public class MainActivity extends Activity {
                                 return true;
 
                             case R.id.action_send:
-                                loadSend();
+                                loadSend(null);
                                 return true;
 
                         } // end of switch
@@ -66,15 +68,51 @@ public class MainActivity extends Activity {
                     }
                 });
 
-        loadHomeFragment();
+        // Check to see if there was an intent from another application
+        if(!intentFromApplications())
+            loadHomeFragment();
     } // end of onCreate
 
 
-    public void loadSend() {
+    public boolean intentFromApplications() {
+
+        // Get intent, action and MIME type
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+
+        if (Intent.ACTION_SEND.equals(action) && type != null && "text/plain".equals(type)) {
+
+            String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+            if (sharedText != null) {
+
+                loadSend(sharedText);
+                return true;
+            } // end of if
+        } // end of if
+
+        return false;
+    } // end of intentFromApplications
+
+
+    public void loadSend(String message) {
 
         FragmentSend sendFragment = new FragmentSend();
+
+        if(message != null)
+            sendFragment.setMessage(message);
+
         loadFragment(sendFragment, true);
     } // end of loadSend
+
+
+    public void loadSequence(Sequence sequence) {
+
+        FragmentSequence fragment = new FragmentSequence();
+        fragment.setSequence(sequence);
+
+        loadFragment(fragment, false);
+    } // end of loadSequence
 
 
     public void loadHistory() {

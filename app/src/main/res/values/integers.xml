@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="maxPayloadSize">500</integer>
+    <integer name="minPayloadSize">1</integer>
+    <integer name="maxInterval">2000</integer>
+    <integer name="minInterval">1</integer>
+    <integer name="intervalDefault">500</integer>
+    <integer name="payloadSizeDefault">220</integer>
+</resources>
