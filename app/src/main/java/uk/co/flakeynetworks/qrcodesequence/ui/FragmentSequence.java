@@ -1,10 +1,10 @@
 package uk.co.flakeynetworks.qrcodesequence.ui;
 
-import android.app.Fragment;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -149,7 +149,7 @@ public class FragmentSequence extends Fragment {
             // Set the QR
             getActivity().runOnUiThread(new Runnable() {
                 public void run() {
-                    
+
                     qrImageView.setImageBitmap(bmp);
 
                     // Update the statistics text

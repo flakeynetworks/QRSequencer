@@ -1,9 +1,5 @@
 package uk.co.flakeynetworks.qrcodesequence;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -14,6 +10,10 @@ import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import uk.co.flakeynetworks.qrcodesequence.model.ScanResult;
@@ -25,7 +25,7 @@ import uk.co.flakeynetworks.qrcodesequence.ui.FragmentScanResults;
 import uk.co.flakeynetworks.qrcodesequence.ui.FragmentSend;
 import uk.co.flakeynetworks.qrcodesequence.ui.FragmentSequence;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
 
@@ -138,7 +138,7 @@ public class MainActivity extends Activity {
 
     private void loadFragment(Fragment fragment, boolean replace) {
 
-        FragmentManager manager = getFragmentManager();
+        FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         if(!replace)
             transaction.addToBackStack(null);

@@ -160,4 +160,38 @@ public class ScanResult implements Parcelable, Comparable<ScanResult> {
 
         return file.delete();
     } // end of deleteFile
+
+
+    public String getScanTimeFormatted() {
+
+        long scanDuration = this.scanDuration;
+
+        // Get number of minutes
+        int minutes = (int) (scanDuration / (1000 * 60));
+        scanDuration -= minutes * (1000 * 60);
+
+        // Get number of seconds
+        int seconds = (int) (scanDuration / 1000);
+        scanDuration -= seconds * 1000;
+
+        if(scanDuration > 0)
+            seconds++;
+
+        StringBuilder readable = new StringBuilder();
+        if(minutes > 0)
+            readable.append(minutes).append(" minutes ");
+
+        if(seconds > 0)
+            readable.append(seconds).append(" seconds");
+
+        return readable.toString().trim();
+    } // end of getScanTimeReadable
+
+
+    public int getMessageLength() {
+
+        if(message == null) return 0;
+
+        return message.length();
+    } // end of getMessageLength
 } // end of ScanResult

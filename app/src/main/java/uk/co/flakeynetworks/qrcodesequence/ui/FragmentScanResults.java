@@ -1,11 +1,10 @@
 package uk.co.flakeynetworks.qrcodesequence.ui;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,7 @@ import android.widget.TextView;
 
 import uk.co.flakeynetworks.qrcodesequence.R;
 import uk.co.flakeynetworks.qrcodesequence.model.ScanResult;
+import uk.co.flakeynetworks.qrcodesequence.ui.dialog.DialogDetails;
 
 /**
  * Created by Richard Stokes on 8/28/2018.
@@ -43,6 +43,16 @@ public class FragmentScanResults extends Fragment {
             public void onClick(View v) {
 
                 shareMessage(scanResult.getMessage());
+            } // end of onClick
+        });
+
+        LinearLayout btnInfo = view.findViewById(R.id.btnInfo);
+        btnInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                DialogDetails details = new DialogDetails(getActivity(), scanResult);
+                details.show();
             } // end of onClick
         });
 
