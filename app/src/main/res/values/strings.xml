@@ -8,4 +8,6 @@
     <string name="delete">DELETE</string>
     <string name="scanningTip">Tip: Scanning from further away will be faster</string>
     <string name="scanningPrompt">Scan sequence and hold till complete</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

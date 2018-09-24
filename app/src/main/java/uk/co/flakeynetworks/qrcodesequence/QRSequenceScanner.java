@@ -1,8 +1,16 @@
 package uk.co.flakeynetworks.qrcodesequence;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -29,6 +37,8 @@ public class QRSequenceScanner extends Activity implements ZXingScannerView.Resu
     private long scanStartTime;
     private long scanTime;
 
+    private static final int requestCode = 200;
+
     private ProgressBar progressBar;
 
     @Override
@@ -36,8 +46,76 @@ public class QRSequenceScanner extends Activity implements ZXingScannerView.Resu
 
         super.onCreate(savedInstanceState);
 
-        startScanning();
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Permission is not granted
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.CAMERA)) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                displayInvalidPermissions();
+            } else {
+                // No explanation needed; request the permission
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.CAMERA}, requestCode);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            } // end of else
+        } else {
+
+            // Permission has already been granted
+            startScanning();
+        } // end of else
     } // end of onCreate
+
+    @Override
+    public void onRequestPermissionsResult(int permsRequestCode, @NonNull String[] permissions, @NonNull int[] grantResults){
+
+        switch(permsRequestCode){
+
+            case requestCode:
+
+                boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                if(cameraAccepted)
+                    startScanning();
+                else
+                    displayInvalidPermissions();
+                break;
+        } // end of switch
+    } // end of onRequestPermissionsResult
+
+
+    private void displayInvalidPermissions() {
+
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+        else
+            builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Could not scan")
+                .setMessage("Permission has not been granted to access the camera. Would you like to grant permission?")
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        ActivityCompat.requestPermissions(QRSequenceScanner.this,
+                                new String[]{Manifest.permission.CAMERA}, requestCode);
+                    } // end of onClick
+                })
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    } // end of onClick
+                })
+
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    } // end of displayInvalidPermissions
 
 
     private void startScanning() {
@@ -64,7 +142,6 @@ public class QRSequenceScanner extends Activity implements ZXingScannerView.Resu
         formats.add(BarcodeFormat.QR_CODE);
         mScannerView.setFormats(formats);
         mScannerView.setFlash(false);
-        mScannerView.setAutoFocus(true);
 
         mScannerView.setOnClickListener(new View.OnClickListener() {
 
@@ -83,8 +160,11 @@ public class QRSequenceScanner extends Activity implements ZXingScannerView.Resu
 
         super.onResume();
 
-        mScannerView.setResultHandler(this); // Register ourselves as a handler for scan results.
-        mScannerView.startCamera();          // Start camera on resume
+        if(mScannerView != null) {
+            mScannerView.setResultHandler(this); // Register ourselves as a handler for scan results.
+            mScannerView.setAutoFocus(false);
+            mScannerView.startCamera();          // Start camera on resume
+        } // end of if
     } // end of onResume
 
 
@@ -92,7 +172,8 @@ public class QRSequenceScanner extends Activity implements ZXingScannerView.Resu
     public void onStop() {
 
         super.onStop();
-        mScannerView.stopCamera();
+        if(mScannerView != null)
+            mScannerView.stopCamera();
     } // end of onStop
 
 
@@ -101,7 +182,8 @@ public class QRSequenceScanner extends Activity implements ZXingScannerView.Resu
 
         super.onPause();
 
-        mScannerView.stopCamera();           // Stop camera on pause
+        if(mScannerView != null)
+            mScannerView.stopCamera();           // Stop camera on pause
     } // end of onPause
 
 
