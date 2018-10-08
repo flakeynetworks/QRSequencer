@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "889829574509",
+    "firebase_url": "https://qr-sequencer.firebaseio.com",
+    "project_id": "qr-sequencer",
+    "storage_bucket": "qr-sequencer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:889829574509:android:1a2683e6449da370",
+        "android_client_info": {
+          "package_name": "uk.co.flakeynetworks.qrcodesequence"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "889829574509-3a08osgn7i1sgtcqjs4aumcomc8dnc8v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnwHMSzLEOwJtBgQZxuccD9gWIgrGxwDU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

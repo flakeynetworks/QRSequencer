@@ -148,7 +148,7 @@ public class QRSequenceScanner extends Activity implements ZXingScannerView.Resu
             @Override
             public void onClick(View view) {
 
-                mScannerView.setCameraDistance(1000);
+                //mScannerView.setCameraDistance(1000);
                 mScannerView.findFocus();
             } // end of onClick
         });
@@ -162,7 +162,7 @@ public class QRSequenceScanner extends Activity implements ZXingScannerView.Resu
 
         if(mScannerView != null) {
             mScannerView.setResultHandler(this); // Register ourselves as a handler for scan results.
-            mScannerView.setAutoFocus(false);
+            mScannerView.setAutoFocus(true);
             mScannerView.startCamera();          // Start camera on resume
         } // end of if
     } // end of onResume

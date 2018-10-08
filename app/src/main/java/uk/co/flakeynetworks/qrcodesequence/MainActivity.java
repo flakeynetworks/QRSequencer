@@ -16,6 +16,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import com.crashlytics.android.Crashlytics;
+
+import io.fabric.sdk.android.Fabric;
 import uk.co.flakeynetworks.qrcodesequence.model.ScanResult;
 import uk.co.flakeynetworks.qrcodesequence.model.Sequence;
 import uk.co.flakeynetworks.qrcodesequence.ui.FragmentAbout;
@@ -33,6 +36,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        // Initialise Fabrio.io with Crashlytics
+        final Fabric fabric = new Fabric.Builder(this)
+                .kits(new Crashlytics())
+                .debuggable(true)
+                .build();
+        Fabric.with(fabric);
+
 
         setContentView(R.layout.activity_main);
 
